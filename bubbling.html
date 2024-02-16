@@ -1,0 +1,89 @@
+<!-- childSlot.html --> <template> 
+                            <h2>I can host other elements via slots</h2> 
+                            <slot></slot> 
+                        </template> 
+<!-- container.html --> 
+                        <template> 
+                            <c-child-slot> 
+                                <p> Passing you some Light DOM content.</p> 
+                            </c-child-slot> 
+                        </template>
+
+
+                        <!-- flattened DOM -->
+<body> 
+    <c-container> #shadow-root     
+        <c-child-slot> #shadow-root         
+            <h2>I can host other elements via slots</h2>         
+            <slot>
+                // To the outside world, 
+                // I'm not part of c-child-slot shadow DOM
+                // I'm part of c-container shadow DOM             
+                <p> To c-container, I'm light DOM.</p>         
+            </slot>     
+        </c-child-slot> 
+    </c-container>
+</body>
+
+
+<!-- flattened DOM --> <body> 
+                            <p>I'm just a regular paragraph element, I'm part of the light DOM</p>
+                                <!-- The c-child element is part of the light DOM. But everything below #shadow-root is hidden, because it's part of c-child's shadow DOM. -->
+                                    <c-child> #shadow-root 
+                                        <p> In c-child, I'm light DOM. To everyone else, I'm shadow DOM. </p> 
+                                    </c-child> 
+                        </body>
+
+
+
+
+                        <!-- body -->
+                        <c-app onbuttonclick={handleButtonClick></c-app>
+
+                        <!-- app -->
+                        <template>
+                            <h2>My app</h2>
+                            <c-parent 
+                            onbuttonclick={handleButtonClick}>
+                            </c-parent>
+                        </template>
+
+                        <!-- parent.html -->
+                        <template>
+                            <h3>I'm a parent component</h3>
+                            <div class='wrapper' onbuttonclick={handleButtonClick}>
+                            <c-child 
+                                onbuttonclick={handleButtonClick}></c-child>
+                            </div>
+                        </template>
+
+                        <!-- child.html -->
+                        <template>
+                            <h3>I'm c-child component</h3>
+                            <button onclick={handleClick}>click me</button>
+                        </template>
+
+
+
+
+
+                        <body> <!-- Listening for "buttonclick" event -->
+                            <c-app> <!-- Listening for "buttonclick" event -->
+                            #shadow-root 
+                              <h2>My app</h2>
+                              <c-parent> <!-- Listening for "buttonclick" event -->
+                                #shadow-root
+                                  <h3>I'm a parent component</h3>
+                                  <div><!-- Listening for "buttonclick" event -->
+                                    <c-child> <!-- Listening for "buttonclick" event -->
+                                      #shadow-root
+                                        <h3>I'm c-child component</h3>
+                                        <button>click me</button>
+                                      #/shadow-root
+                                    </c-child>
+                                  </div>
+                                #/shadow-root
+                              </c-parent>
+                              #/shadow-root
+                            </c-app>
+                        </body>
